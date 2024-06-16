@@ -11,7 +11,7 @@ public class Login {
     public LoginUser authenticate(LoginInfo loginInfo) {
         EmployeeEntity employeeEntity = employeeDao.findByMailAddressAndPassword(loginInfo.getMailAddress(), loginInfo.getPassword());
         if (employeeEntity != null) {
-            return new LoginUser(EmployeeEntity.createEmployee(employeeEntity));
+            return new LoginUser(employeeEntity.toModel());
         }
         return null;
     }

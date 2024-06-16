@@ -14,12 +14,12 @@ public class BookService {
 
     public List<BookCollection> searchBooks(String nmBook, String publisher, String note) {
         List<BookCollectionEntity> entities = bookCollectionDao.searchBooks(nmBook, publisher, note);
-        return entities.stream().map(BookCollectionEntity::createBookCollection).collect(Collectors.toList());
+        return entities.stream().map(BookCollectionEntity::toModel).collect(Collectors.toList());
     }
 
     public BookCollection getBookById(int idBook) throws SQLException {
         BookCollectionEntity entity = bookCollectionDao.findById(idBook);
-        return entity != null ? BookCollectionEntity.createBookCollection(entity) : null;
+        return entity != null ? entity.toModel() : null;
     }
 
     public void registerBook(BookCollection book) throws SQLException {
