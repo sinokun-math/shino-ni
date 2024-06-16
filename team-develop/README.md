@@ -320,8 +320,11 @@ presentation.controller.SelectBookController.javaをつくって機能を分割�
 
 * borrow_books.statusのとりうる値は'0': 返済済み, '1': 承認待ち, '2':貸出中 '9': 却下の四つ。デフォルトは'1'
 * table.flb_lendingのとりうる値は'0':「貸出可」, '1':「貸出不可」。デフォルトは'0'
+* 上二つの情報はdata定義や活用する上で何か加えた方が良いか？
+* できるだけformやmodel, serviceを活用してjspやservletを簡潔に
 
-<!-- 
+## 後から加える
+
 * login.jsp (ログイン画面)
   * 入力form
     1. mail_address
