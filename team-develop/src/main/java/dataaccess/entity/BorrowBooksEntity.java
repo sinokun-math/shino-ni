@@ -6,8 +6,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class BorrowBooksEntity {
     private int idRequest;
@@ -116,27 +115,20 @@ public class BorrowBooksEntity {
     public BorrowBooksEntity() {}
 
     // Create BorrowBooks from BorrowBooksEntity
-    public static BorrowBooks createBorrowBooks(BorrowBooksEntity entity) {
+    public BorrowBooks toModel() {
         return new BorrowBooks(
-            entity.getIdRequest(),
-            entity.getIdApplicant(),
-            entity.getIdBook(),
-            entity.getDateRequest(),
-            entity.getStatus(),
-            entity.getIdApproval(),
-            entity.getDateApproval(),
-            entity.getDateBorrow(),
-            entity.getDateScheduledReturn(),
-            entity.getDateReturn(),
-            entity.getIdUpdate(),
-            entity.getDateUpdate()
+            this.idRequest,
+            this.idApplicant,
+            this.idBook,
+            this.dateRequest,
+            this.status,
+            this.idApproval,
+            this.dateApproval,
+            this.dateBorrow,
+            this.dateScheduledReturn,
+            this.dateReturn,
+            this.idUpdate,
+            this.dateUpdate
         );
-    }
-
-    // Create List<BorrowBooks> from List<BorrowBooksEntity>
-    public static List<BorrowBooks> createBorrowBooksList(List<BorrowBooksEntity> entities) {
-        return entities.stream()
-                .map(BorrowBooksEntity::createBorrowBooks)
-                .collect(Collectors.toList());
     }
 }

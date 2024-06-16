@@ -5,8 +5,6 @@ import businesslogic.model.Employee;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class EmployeeEntity {
 	private int idEmployee;
@@ -133,14 +131,17 @@ public class EmployeeEntity {
 	}
 
 	// Create Employee from EmployeeEntity
-	public static Employee createEmployee(EmployeeEntity entity) {
-		return new Employee(entity.getIdEmployee(), entity.getNmEmployee(), entity.getKnEmployee(),
-				entity.getMailAddress(), entity.getPassword(), entity.getFlgAdmin(), entity.getFlgRetirement(),
-				entity.getIdUpdate(), entity.getDateUpdate());
+	public Employee toModel() {
+		return new Employee(
+				this.idEmployee, 
+				this.nmEmployee, 
+				this.knEmployee,
+				this.mailAddress, 
+				this.password, 
+				this.flgAdmin, 
+				this.flgRetirement,
+				this.idUpdate, 
+				this.dateUpdate);
 	}
 
-	// Create List<Employee> from List<EmployeeEntity>
-	public static List<Employee> createEmployeeList(List<EmployeeEntity> entities) {
-		return entities.stream().map(EmployeeEntity::createEmployee).collect(Collectors.toList());
-	}
 }

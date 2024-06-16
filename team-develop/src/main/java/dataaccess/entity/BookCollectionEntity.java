@@ -5,8 +5,6 @@ import businesslogic.model.BookCollection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class BookCollectionEntity {
     private int idBook;
@@ -94,24 +92,17 @@ public class BookCollectionEntity {
     public BookCollectionEntity() {}
 
     // Create BookCollection from BookCollectionEntity
-    public static BookCollection createBookCollection(BookCollectionEntity entity) {
+    public BookCollection toModel() {
         return new BookCollection(
-            entity.getIdBook(),
-            entity.getIsbn(),
-            entity.getNmBook(),
-            entity.getKnBook(),
-            entity.getPublisher(),
-            entity.getNote(),
-            entity.getFlgLending(),
-            entity.getIdUpdate(),
-            entity.getDateUpdate()
+            this.idBook,
+            this.isbn,
+            this.nmBook,
+            this.knBook,
+            this.publisher,
+            this.note,
+            this.flgLending,
+            this.idUpdate,
+            this.dateUpdate
         );
-    }
-
-    // Create List<BookCollection> from List<BookCollectionEntity>
-    public static List<BookCollection> createBookCollectionList(List<BookCollectionEntity> entities) {
-        return entities.stream()
-                .map(BookCollectionEntity::createBookCollection)
-                .collect(Collectors.toList());
     }
 }
