@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Menu</title>
+    <title>Application Complete</title>
 </head>
 <body>
     <%
@@ -16,12 +16,12 @@
         }
         LoginUserForm loginUserForm = LoginUserForm.convertFrom(loginUser);
     %>
-    <h2>Welcome, <%= loginUserForm.getMailAddress() %></h2>
+    <h2>Application Complete</h2>
     <button style="float: right;" onclick="location.href='logout'">Logout</button>
-    <br><br>
-    <button onclick="location.href='bookList'">書籍一覧</button>
-    <% if (loginUserForm.isAdmin()) { %>
-        <button onclick="location.href='applicationList'">書籍貸出申請一覧</button>
-    <% } %>
+    <h2>書籍貸出申請が完了しました</h2>
+    <div>
+        <a href="bookList.jsp">書籍一覧に戻る</a> |
+        <a href="menu.jsp">メニューに戻る</a>
+    </div>
 </body>
 </html>

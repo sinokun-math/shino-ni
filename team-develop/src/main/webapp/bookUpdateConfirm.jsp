@@ -1,41 +1,76 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="businesslogic.model.BookCollection" %>
+<%@ page import="presentation.form.LoginUserForm" %>
+<%@ page import="businesslogic.model.LoginUser" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Book Update Confirm</title>
+    <title>Book List</title>
 </head>
 <body>
     <%
-        String isbn = request.getParameter("isbn");
-        String nmBook = request.getParameter("nm_book");
-        String knBook = request.getParameter("kn_book");
-        String publisher = request.getParameter("publisher");
-        String note = request.getParameter("note");
+        LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        LoginUserForm loginUserForm = LoginUserForm.convertFrom(loginUser);
+        List<BookCollection> bookList = (List<BookCollection>) request.getAttribute("bookList");
     %>
-    <h2>Book Update Confirm</h2>
-    <form action="bookUpdate" method="post">
-        <input type="hidden" name="id_book" value="${param.id_book}">
-        <label>ISBN:</label>
-        <input type="text" name="isbn" value="${isbn}" readonly><br><br>
-        <label>Book Name:</label>
-        <input type="text" name="nm_book" value="${nmBook}" readonly><br><br>
-        <label>Book Name (Kana):</label>
-        <input type="text" name="kn_book" value="${knBook}" readonly><br><br>
-        <label>Publisher:</label>
-        <input type="text" name="publisher" value="${publisher}" readonly><br><br>
-        <label>Note:</label>
-        <textarea name="note" readonly>${note}</textarea><br><br>
-        <button type="submit">Update</button>
+    <h2>Book List</h2>
+    <button style="float: right;" onclick="location.href='logout'">Logout</button>
+    <form action="bookList" method="get">
+        <label for="nm_book">Book Name:</label>
+        <input type="text" id="nm_book" name="nm_book"><br><br>
+        <label for="publisher">Publisher:</label>
+        <input type="text" id="publisher" name="publisher"><br><br>
+        <label for="note">Note:</label>
+        <input type="text" id="note" name="note"><br><br>
+        <button type="submit">Search</button>
     </form>
-    <form action="bookUpdateInput" method="get">
-        <input type="hidden" name="id_book" value="${param.id_book}">
-        <input type="hidden" name="isbn" value="${isbn}">
-        <input type="hidden" name="nm_book" value="${nmBook}">
-        <input type="hidden" name="kn_book" value="${knBook}">
-        <input type="hidden" name="publisher" value="${publisher}">
-        <input type="hidden" name="note" value="${note}">
-        <button type="submit">Back to Input</button>
-    </form>
+    <br>
+    <a href="menu.jsp">Back to Menu</a>
+    <h2>Search Results</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ISBN</th>
+                <th>Book Name</th>
+                <th>Book Name (Kana)</th>
+                <th>Publisher</th>
+                <th>Note</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (bookList != null) {
+                for (BookCollection book : bookList) { %>
+                    <tr>
+                        <td><%= book.getIdBook() %></td>
+                        <td><%= book.getIsbn() %></td>
+                        <td><%= book.getNmBook() %></td>
+                        <td><%= book.getKnBook() %></td>
+                        <td><%= book.getPublisher() %></td>
+                        <td><%= book.getNote() %></td>
+                        <td>
+                            <form action="applicationInput" method="post" style="display:inline;">
+                                <input type="hidden" name="id_book" value="<%= book.getIdBook() %>">
+                                <button type="submit">Apply for Borrow</button>
+                            </form>
+                            <% if (loginUserForm.isAdmin()) { %>
+                                <form action="bookUpdateInput" method="get" style="display:inline;">
+                                    <input type="hidden" name="id_book" value="<%= book.getIdBook() %>">
+                                    <button type="submit">Edit</button>
+                                </form>
+                            <% } %>
+                        </td>
+                    </tr>
+            <% }
+            } %>
+        </tbody>
+    </table>
 </body>
 </html>
