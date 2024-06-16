@@ -5,50 +5,53 @@ import java.sql.Timestamp;
 
 public class BookCollectionBorrowBooksEmployee {
     private final int idRequest;
-    private final int idApplicant;
-    private final int idBook;
+    private final String nmEmployee;
+    private final String isbn;
+    private final String nmBook;
+    private final String publisher;
+    private final String note;
     private final Date dateRequest;
-    private final char status;
-    private final Integer idApproval; // Allow null
-    private final Date dateApproval; // Allow null
     private final Date dateBorrow;
     private final Date dateScheduledReturn;
-    private final Date dateReturn; // Allow null
+    private final char status;
+    private final Integer idApproval;
+    private final Date dateApproval;
+    private final Date dateReturn;
     private final int idUpdate;
     private final Timestamp dateUpdate;
-    private final String nmEmployee;
-    private final String nmBook;
 
-    public BookCollectionBorrowBooksEmployee(int idRequest, int idApplicant, int idBook, Date dateRequest, char status, Integer idApproval, Date dateApproval, Date dateBorrow, Date dateScheduledReturn, Date dateReturn, int idUpdate, Timestamp dateUpdate, String nmEmployee, String nmBook) {
+    public BookCollectionBorrowBooksEmployee(int idRequest, String nmEmployee, String isbn, String nmBook, String publisher, String note, Date dateRequest, Date dateBorrow, Date dateScheduledReturn, char status, Integer idApproval, Date dateApproval, Date dateReturn, int idUpdate, Timestamp dateUpdate) {
         this.idRequest = idRequest;
-        this.idApplicant = idApplicant;
-        this.idBook = idBook;
+        this.nmEmployee = nmEmployee;
+        this.isbn = isbn;
+        this.nmBook = nmBook;
+        this.publisher = publisher;
+        this.note = note;
         this.dateRequest = dateRequest;
+        this.dateBorrow = dateBorrow;
+        this.dateScheduledReturn = dateScheduledReturn;
         this.status = status;
         this.idApproval = idApproval;
         this.dateApproval = dateApproval;
-        this.dateBorrow = dateBorrow;
-        this.dateScheduledReturn = dateScheduledReturn;
         this.dateReturn = dateReturn;
         this.idUpdate = idUpdate;
         this.dateUpdate = dateUpdate;
-        this.nmEmployee = nmEmployee;
-        this.nmBook = nmBook;
     }
 
     // Getters
     public int getIdRequest() { return idRequest; }
-    public int getIdApplicant() { return idApplicant; }
-    public int getIdBook() { return idBook; }
+    public String getNmEmployee() { return nmEmployee; }
+    public String getIsbn() { return isbn; }
+    public String getNmBook() { return nmBook; }
+    public String getPublisher() { return publisher; }
+    public String getNote() { return note; }
     public Date getDateRequest() { return dateRequest; }
+    public Date getDateBorrow() { return dateBorrow; }
+    public Date getDateScheduledReturn() { return dateScheduledReturn; }
     public char getStatus() { return status; }
     public Integer getIdApproval() { return idApproval; }
     public Date getDateApproval() { return dateApproval; }
-    public Date getDateBorrow() { return dateBorrow; }
-    public Date getDateScheduledReturn() { return dateScheduledReturn; }
     public Date getDateReturn() { return dateReturn; }
     public int getIdUpdate() { return idUpdate; }
     public Timestamp getDateUpdate() { return dateUpdate; }
-    public String getNmEmployee() { return nmEmployee; }
-    public String getNmBook() { return nmBook; }
 }
