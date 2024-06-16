@@ -43,6 +43,40 @@ public class BookCollectionDao {
 
         return book;
     }
+    
+    public List<BookCollectionEntity> searchBooks(String nmBook, String publisher, String note) {
+        List<BookCollectionEntity> books = new ArrayList<>();
+        String sql = "SELECT * FROM book_collection WHERE 1=1";
+        List<Object> params = new ArrayList<>();
+
+        if (nmBook != null && !nmBook.isEmpty()) {
+            sql += " AND nm_book LIKE ?";
+            params.add("%" + nmBook + "%");
+        }
+        if (publisher != null && !publisher.isEmpty()) {
+            sql += " AND publisher LIKE ?";
+            params.add("%" + publisher + "%");
+        }
+        if (note != null && !note.isEmpty()) {
+            sql += " AND note LIKE ?";
+            params.add("%" + note + "%");
+        }
+
+        try (Connection connection = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            DatabaseConnection.setStatementParameter(preparedStatement, params);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    books.add(BookCollectionEntity.convertFrom(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
 
     public void insert(BookCollectionEntity book) throws SQLException {
         String query = "INSERT INTO book_collection (isbn, nm_book, kn_book, publisher, note, flg_lending, id_update, date_update) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
