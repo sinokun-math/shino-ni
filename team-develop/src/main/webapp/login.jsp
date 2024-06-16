@@ -1,33 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="ja">
-
+<html>
 <head>
-	<meta charset="UTF-8">
-	<!-- CSSの読み込み -->
-	<link rel="stylesheet" href=".css/style.css">
-	<link rel="stylesheet" href=".css/all.min.css">
-	<title>ログイン画面</title>
+    <meta charset="UTF-8">
+    <title>Login</title>
 </head>
-
 <body>
-	<form action="menu.jsp">
-		<h1>ログイン</h1>
-		<table>
-			<tr>
-				<th class="header">メールアドレス</th>
-				<td style="width: 250px;"><input type="email" placeholder="メールアドレス" style="width: 100%;" required /></td>
-			</tr>
-			<tr>
-				<th style="text-align: right;">パスワード</th>
-				<td><input type="password" placeholder="パスワード" style="width: 100%;" required /></td>
-			</tr>
-			<tr>
-				<td colspan="2" class="btnArea"><input type="submit" value="ログイン" /></td>
-			</tr>
-		</table>
-	</form>
+    <h2>Login</h2>
+    <form action="login" method="post">
+        <label for="mail_address">Email:</label>
+        <input type="text" id="mail_address" name="mail_address" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="submit" style="float: right;">Login</button>
+    </form>
 </body>
-
 </html>
