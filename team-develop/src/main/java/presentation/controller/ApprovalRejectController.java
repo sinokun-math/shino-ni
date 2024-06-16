@@ -1,6 +1,5 @@
 package presentation.controller;
 
-import businesslogic.model.LoginUser;
 import businesslogic.service.ApplicationService;
 
 import javax.servlet.ServletException;

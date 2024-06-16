@@ -31,6 +31,10 @@
         <input type="text" name="date_scheduled_return" value="<%= application.getDateScheduledReturn() %>" readonly><br><br>
         <button type="submit">Approve</button>
     </form>
+    <form action="rejectApplication" method="post">
+        <input type="hidden" name="id_request" value="<%= application.getIdRequest() %>">
+        <button type="submit">Reject</button>
+    </form>
     <form action="applicationList" method="get">
         <button type="submit">Back to List</button>
     </form>

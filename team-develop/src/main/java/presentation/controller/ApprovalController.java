@@ -1,6 +1,5 @@
 package presentation.controller;
 
-import businesslogic.model.LoginUser;
 import businesslogic.service.ApplicationService;
 
 import javax.servlet.ServletException;
@@ -10,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+
+import businesslogic.model.LoginUser;
 
 @WebServlet("/approveApplication")
 public class ApprovalController extends HttpServlet {

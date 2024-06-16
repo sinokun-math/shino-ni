@@ -6,70 +6,120 @@
 
 * id_employee
   * int autoincrement
+  * not null
+  * primary key
+  * default: 1
 * nm_employee
   * varchar(50)
+  * not null
 * kn_employee
   * varchar(100)
+  * not null
 * mail_address
   * varchar(256)
+  * not null
+  * unique
 * password
   * varchar(256)
+  * not null
+  * default : 'Pswd0000'
 * flg_addmin
   * char(1)
+  * not null
+  * default: '0'
+    * '0': 一般, '1': 管理者
 * flg_retirement
   * char(1)
+  * not null
+  * default: '0'
+    * '0': 所属, '1': 退職済み
 * id_update
   * int
+  * not null
+  * data type: employee.id_employee (updater)
 * date_update
   * timestamp
+  * not null
+  * CURRENT_TYMESTAMP
 
 ### book_collection
 
 * id_book
-  * int autoincrement 
+  * int autoincrement
+  * not null
 * isbn
   * varchar(13)
+  * not null
 * nm_book
   * varchar(50)
+  * not null
 * kn_book
   * varchar(100)
+  * nullable
 * publisher
   * varchar(50)
+  * nullable
 * note
   * text
+  * nullable
 * flg_lending
   * char(1)
+  * not null
+  * default: '0'
+    * '0': 貸出可, '1': 貸出不可
 * id_update
   * int
+  * not null
+  * data type: employee.id_employee (updater)
 * date_update
   * timestamp
+  * not null
+  * CURRENT_TIMESTAMP
 
 ### borrow_books
 
 * id_request
   * int autoincrement
+  * not null
+  * default: 1
 * id_applicant
   * int
+  * not null
+  * data type: employee.id_employee (updater)
 * id_book
   * int
+  * not null
 * date_request
   * date
+  * not null
 * status
   * char(1)
+  * not null
+  * default: '1'
+    * '0': 返済済, '1': 承認待, '2': 貸出中, '9': 却下
 * id_approval
   * int
+  * nullable
 * date_approval
   * date
+  * nullable
 * date_borrow
   * date
+  * not null
 * date_scheduled_return
   * date
+  * not null
 * date_return
   * date
+  * nullable
 * id_update
   * int
+  * not null
+  * data type: employee.id_employrr (updater)
 * date_update
   * timestamp
+  * not null
+  * CURRENT_TIMESTAMP
 
 ## 要求
 
@@ -95,9 +145,11 @@
 
 #### businseelogic.service
 
+* ApplicationService.java
 * BookService.java
 * Login.java
   * ログイン型の機能を集約させるクラス。
+* BorrowBooksService.java
 
 #### dataaccess.entity
 
@@ -119,6 +171,13 @@
 
 #### presentation.controller
   
+* ApplicationConfirmController.java
+* ApplicationController.java
+* ApplicationInputController.java
+* ApplicationListController.java
+* ApprovalConfirmController.java
+* ApprovalController.java
+* ApprovalRejectController.java
 * BookListController.java
 * BookRegistInputController.java
 * BookUpdateConfirmController.java
@@ -126,9 +185,11 @@
 * BookUpdateInputController.java
 * LoginController.java
   * menu.jspへforward処理
+* SelectBookController.java
 
 #### presentation.form
   
+* ApplicationForm.java
 * LoginUserForm
   * 自然な変換のstaticメソッド LoginUserForm convertFrom(LoginUser model)を定義
   * ログインユーザが管理者かをflgAdminで識別するメソッドboolean isAdminUser()
@@ -145,9 +206,13 @@
 
 ### これから実装するクラス
 
-#### bookList.jsp (書籍一覧画面) (変更)
+書籍編集機能
+1. 管理者でログイン
+2. メニュー画面からSelectBookController.javaを介して書籍一覧画面へ遷移
 
-* ログアウトボタン
+#### bookList.jsp (書籍一覧画面) (実装済み)
+
+* ログイン者名「ログアウト」ボタン (align right)
 * 入力フォーム (同ページで条件検索をかける、最初は全件検索の状態になっている)
   * 書籍名 : nm_book
   * 出版社 : publisher
@@ -163,7 +228,60 @@
   * 書籍名読み : kn_book
   * 出版社 : publisher
   * 特記事項 : note
-  * 操作 : 「貸出申請」ボタン, 「編集」ボタン(「編集」ボタンは管理者のみ表示, (->UpdateInputController.java(実装済)) )
+  * 操作 : 「貸出申請」ボタン, 「編集」ボタン(「編集」ボタンは管理者のみ表示)
+
+#### BookUpdateInputController.java
+
+* 書籍画面一覧画面で「編集」ボタンを押下
+* formの作成
+* 書籍編集画面にforward
+
+* 書籍編集確認画面で「書籍情報入力に戻る」リンクを押下
+* 入力されていた情報を保持して書籍編集画面にforward
+
+#### bookUpdateInput.jsp (書籍編集画面)
+
+入力フォームには書籍一覧画面で選択したbook_collectionのデータがヒントテキストとして入っている
+
+* ログイン者名「ログアウト」ボタン (align right)
+* 入力フォーム
+  * 蔵書ID : id_book
+  * 書籍名 : nm_book
+  * 書籍名よみ : kn_book
+  * 出版社 : publisher
+  * 特記事項 : note
+  * 「登録確認」ボタン
+* 「書籍一覧に戻る」リンク(書籍一覧画面へ)
+
+#### BookUpdateConfirmController.java
+
+* 書籍編集画面で「登録確認」ボタンを押下
+* 書籍編集確認画面にforward
+
+#### bookUpdateConfirm.jsp (書籍編集確認画面)
+
+* ログイン者名「ログアウト」ボタン (align right)
+* 入力フォーム
+  * 蔵書ID : id_book (readonly)
+  * 書籍名 : nm_book (readonly)
+  * 書籍名よみ : kn_book (readonly)
+  * 出版社 : publisher (readonly)
+  * 特記事項 : note (readonly)
+  * 「編集」ボタン
+* 「書籍情報入力に戻る」リンク
+
+### BookUpdateController.java
+
+* 書籍編集確認画面で「編集」ボタンを押下
+* 入力情報と共に、book_collection.id_book, book_collection.flg_lending, book_collection.id_update, book_collection.date_update を更新する。(model, entity, serviceなど必要に応じて変更、追加して欲しい)
+* 書籍編集完了画面にforward
+
+### bookUpdateCompleteController.jsp (書籍編集画面)
+
+* ログイン者名, 「ログアウト」ボタン
+* 「書籍一覧に戻る」リンク, 「メニューに戻る」リンク
+
+### 参考
 
 #### presentation.controller.ApplicationInputContoller.java
   
@@ -353,6 +471,8 @@ presentation.controller.SelectBookController.javaをつくって機能を分割�
       5. 出版社 : publisher
       6. 特記事項 : note
       7. 捜査 : 「編集」 BookRegistInputContoller.javaへbook_collectionの情報を持ってformする。 管理者としてログインしたときのみ表示される。
+
+## 書籍編集機能
 
 * bookUpdateConfirm.jsp
   * ログイン者名(align right)
