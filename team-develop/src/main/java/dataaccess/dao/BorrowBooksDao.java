@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import businesslogic.model.BorrowBooks;
+
 public class BorrowBooksDao {
 
     public List<BorrowBooksEntity> findAll() throws SQLException {
@@ -44,34 +46,26 @@ public class BorrowBooksDao {
         return borrowBooks;
     }
 
-    public void insert(BorrowBooksEntity borrowBooks) throws SQLException {
-        String sql = "INSERT INTO borrow_books (id_applicant, id_book, date_request, status, id_approval, date_approval, date_borrow, date_scheduled_return, date_return, id_update, date_update) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+    public void insert(BorrowBooks borrowBooks) {
+        String sql = "INSERT INTO borrow_books (id_applicant, id_book, date_request, status, date_borrow, date_scheduled_return, id_update, date_update) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            List<Object> params = Arrays.asList(
-                    borrowBooks.getIdApplicant(),
-                    borrowBooks.getIdBook(),
-                    borrowBooks.getDateRequest(),
-                    borrowBooks.getStatus(),
-                    borrowBooks.getIdApproval(),
-                    borrowBooks.getDateApproval(),
-                    borrowBooks.getDateBorrow(),
-                    borrowBooks.getDateScheduledReturn(),
-                    borrowBooks.getDateReturn(),
-                    borrowBooks.getIdUpdate(),
-                    borrowBooks.getDateUpdate()
+            List<Object> params = List.of(
+                borrowBooks.getIdApplicant(),
+                borrowBooks.getIdBook(),
+                borrowBooks.getDateRequest(),
+                borrowBooks.getStatus(),
+                borrowBooks.getDateBorrow(),
+                borrowBooks.getDateScheduledReturn(),
+                borrowBooks.getIdUpdate(),
+                borrowBooks.getDateUpdate()
             );
 
             DatabaseConnection.setStatementParameter(preparedStatement, params);
             preparedStatement.executeUpdate();
-
-            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    borrowBooks.setIdRequest(generatedKeys.getInt(1));
-                }
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -98,6 +92,37 @@ public class BorrowBooksDao {
 
             DatabaseConnection.setStatementParameter(preparedStatement, params);
             preparedStatement.executeUpdate();
+        }
+    }
+    
+    public void updateStatus(int idRequest, char status, Integer idApproval, int idUpdate, Timestamp dateUpdate) {
+        String sql = "UPDATE borrow_books SET status = ?, id_approval = ?, id_update = ?, date_update = ? WHERE id_request = ?";
+
+        try (Connection connection = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            List<Object> params = List.of(status, idApproval, idUpdate, dateUpdate, idRequest);
+            DatabaseConnection.setStatementParameter(preparedStatement, params);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateLendingFlag(int idRequest, char flgLending) {
+        String sql = "UPDATE book_collection bc " +
+                     "JOIN borrow_books bb ON bc.id_book = bb.id_book " +
+                     "SET bc.flg_lending = ? " +
+                     "WHERE bb.id_request = ?";
+
+        try (Connection connection = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            List<Object> params = List.of(flgLending, idRequest);
+            DatabaseConnection.setStatementParameter(preparedStatement, params);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
