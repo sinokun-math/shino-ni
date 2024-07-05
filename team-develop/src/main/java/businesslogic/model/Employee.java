@@ -8,22 +8,52 @@ public class Employee {
 	private final String knEmployee;
 	private final String mailAddress;
 	private final String password;
-	private final char flgAdmin;
-	private final char flgRetirement;
+	private final boolean isAdmin;
+	private final boolean isRetired;
 	private final int idUpdate;
 	private final Timestamp dateUpdate;
+	
+	public static class Builder {
+		private int idEmployee;
+		private String nmEmployee;
+		private String knEmployee;
+		private String mailAddress;
+		private String password;
+		private boolean isAdmin;
+		private boolean isRetired;
+		private int idUpdate;
+		private Timestamp dateUpdate;
+		
+		public Builder(int idEmployee, String nmEmployee, String knEmployee, String mailAddress, String password,
+				boolean isAdmin, boolean isRetired, int idUpdate, Timestamp dateUpdate) {
+			super();
+			this.idEmployee = idEmployee;
+			this.nmEmployee = nmEmployee;
+			this.knEmployee = knEmployee;
+			this.mailAddress = mailAddress;
+			this.password = password;
+			this.isAdmin = isAdmin;
+			this.isRetired = isRetired;
+			this.idUpdate = idUpdate;
+			this.dateUpdate = dateUpdate;
+		}
+		
+		// a build method
+        public Employee build() {
+            return new Employee(this);
+        }
+	}
 
-	public Employee(int idEmployee, String nmEmployee, String knEmployee, String mailAddress, String password,
-			char flgAdmin, char flgRetirement, int idUpdate, Timestamp dateUpdate) {
-		this.idEmployee = idEmployee;
-		this.nmEmployee = nmEmployee;
-		this.knEmployee = knEmployee;
-		this.mailAddress = mailAddress;
-		this.password = password;
-		this.flgAdmin = flgAdmin;
-		this.flgRetirement = flgRetirement;
-		this.idUpdate = idUpdate;
-		this.dateUpdate = dateUpdate;
+	public Employee(Builder builder) {
+		this.idEmployee = builder.idEmployee;
+		this.nmEmployee = builder.nmEmployee;
+		this.knEmployee = builder.knEmployee;
+		this.mailAddress = builder.mailAddress;
+		this.password = builder.password;
+		this.isAdmin = builder.isAdmin;
+		this.isRetired = builder.isRetired;
+		this.idUpdate = builder.idUpdate;
+		this.dateUpdate = builder.dateUpdate;
 	}
 
 	// Getters
@@ -47,12 +77,12 @@ public class Employee {
 		return password;
 	}
 
-	public char getFlgAdmin() {
-		return flgAdmin;
+	public boolean getIsAdmin() {
+		return isAdmin;
 	}
 
-	public char getFlgRetirement() {
-		return flgRetirement;
+	public boolean getIsRetired() {
+		return isRetired;
 	}
 
 	public int getIdUpdate() {

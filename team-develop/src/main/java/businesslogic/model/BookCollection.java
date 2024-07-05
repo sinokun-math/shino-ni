@@ -2,37 +2,81 @@ package businesslogic.model;
 
 import java.sql.Timestamp;
 
-public class BookCollection {
-    private final int idBook;
+public final class BookCollection {
+    private final int id;
     private final String isbn;
     private final String nmBook;
-    private final String knBook; // Allow null
-    private final String publisher; // Allow null
-    private final String note; // Allow null
-    private final char flgLending;
-    private final int idUpdate;
-    private final Timestamp dateUpdate;
+    private final String knBook;
+    private final String publisher;
+    private final String note;
+    private final boolean isLendable;
+    private final int updatedBy;
+    private final Timestamp updatedAt;
 
-    public BookCollection(int idBook, String isbn, String nmBook, String knBook, String publisher, String note, char flgLending, int idUpdate, Timestamp dateUpdate) {
-        this.idBook = idBook;
-        this.isbn = isbn;
-        this.nmBook = nmBook;
-        this.knBook = knBook;
-        this.publisher = publisher;
-        this.note = note;
-        this.flgLending = flgLending;
-        this.idUpdate = idUpdate;
-        this.dateUpdate = dateUpdate;
+    private BookCollection(Builder builder) {
+        this.id = builder.id;
+        this.isbn = builder.isbn;
+        this.nmBook = builder.nmBook;
+        this.knBook = builder.knBook;
+        this.publisher = builder.publisher;
+        this.note = builder.note;
+        this.isLendable = builder.isLendable;
+        this.updatedBy = builder.updatedBy;
+        this.updatedAt = builder.updatedAt;
     }
 
-    // Getters
-    public int getIdBook() { return idBook; }
+    // Gettersのみを提供し、フィールドを変更するsetterは提供しない
+    public int getId() { return id; }
     public String getIsbn() { return isbn; }
-    public String getNmBook() { return nmBook; }
-    public String getKnBook() { return knBook; }
+    public String getName() { return nmBook; }
+    public String getKanaName() { return knBook; }
     public String getPublisher() { return publisher; }
     public String getNote() { return note; }
-    public char getFlgLending() { return flgLending; }
-    public int getIdUpdate() { return idUpdate; }
-    public Timestamp getDateUpdate() { return dateUpdate; }
+    public boolean isLendable() { return isLendable; }
+    public int getUpdatedBy() { return updatedBy; }
+    public Timestamp getUpdatedAt() { return updatedAt; }
+
+    // ビルダークラス
+    public static class Builder {
+        private int id;
+        private String isbn;
+        private String nmBook;
+        private String knBook;
+        private String publisher;
+        private String note;
+        private boolean isLendable;
+        private int updatedBy;
+        private Timestamp updatedAt;
+
+        // 必須フィールド用のコンストラクタ
+        public Builder(int id, String isbn, String name, boolean isLendable, int updatedBy, Timestamp updatedAt) {
+            this.id = id;
+            this.isbn = isbn;
+            this.nmBook = name;
+            this.isLendable = isLendable;
+            this.updatedBy = updatedBy;
+            this.updatedAt = updatedAt;
+        }
+
+        // オプションフィールドのためのメソッド
+        public Builder knBook(String knBook) {
+            this.knBook = knBook;
+            return this;
+        }
+
+        public Builder publisher(String publisher) {
+            this.publisher = publisher;
+            return this;
+        }
+
+        public Builder note(String note) {
+            this.note = note;
+            return this;
+        }
+
+        // ビルドメソッド
+        public BookCollection build() {
+            return new BookCollection(this);
+        }
+    }
 }
