@@ -45,6 +45,26 @@ public class BookCollectionBorrowBooksEmployeeEntity {
         entity.setDateUpdate(resultSet.getTimestamp("date_update"));
         return entity;
     }
+    
+    public static BookCollectionBorrowBooksEmployeeEntity convertFrom(BookCollectionBorrowBooksEmployee model) throws SQLException {
+        BookCollectionBorrowBooksEmployeeEntity entity = new BookCollectionBorrowBooksEmployeeEntity();
+        entity.setIdRequest(model.getIdRequest());
+        entity.setNmEmployee(model.getNmEmployee());
+        entity.setIsbn(model.getIsbn());
+        entity.setNmBook(model.getNmBook());
+        entity.setPublisher(model.getPublisher());
+        entity.setNote(model.getNote());
+        entity.setDateRequest(model.getDateRequest());
+        entity.setDateBorrow(model.getDateBorrow());
+        entity.setDateScheduledReturn(model.getDateScheduledReturn());
+        entity.setStatus(model.getStatus());
+        entity.setIdApproval((Integer) model.getIdApproval());
+        entity.setDateApproval(model.getDateApproval());
+        entity.setDateReturn(model.getDateReturn());
+        entity.setIdUpdate(model.getIdUpdate());
+        entity.setDateUpdate(model.getDateUpdate());
+        return entity;
+    }
 
     public BookCollectionBorrowBooksEmployee toModel() {
         return new BookCollectionBorrowBooksEmployee(

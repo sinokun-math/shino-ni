@@ -1,7 +1,5 @@
 package dataaccess.entity;
 
-import businesslogic.model.BookCollection;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -45,6 +43,9 @@ public class BookCollectionEntity {
     public Timestamp getDateUpdate() { return dateUpdate; }
     public void setDateUpdate(Timestamp dateUpdate) { this.dateUpdate = dateUpdate; }
 
+    // Default constructor
+    public BookCollectionEntity() {}
+
     // Convert from ResultSet
     public static BookCollectionEntity convertFrom(ResultSet resultSet) throws SQLException {
         BookCollectionEntity entity = new BookCollectionEntity();
@@ -59,50 +60,5 @@ public class BookCollectionEntity {
         entity.setDateUpdate(resultSet.getTimestamp("date_update"));
         return entity;
     }
-
-    // Convert from BookCollection model
-    public static BookCollectionEntity convertFrom(BookCollection model) {
-        return new BookCollectionEntity(
-            model.getIdBook(),
-            model.getIsbn(),
-            model.getNmBook(),
-            model.getKnBook(),
-            model.getPublisher(),
-            model.getNote(),
-            model.getFlgLending(),
-            model.getIdUpdate(),
-            model.getDateUpdate()
-        );
-    }
-
-    // Constructor for BookCollectionEntity
-    public BookCollectionEntity(int idBook, String isbn, String nmBook, String knBook, String publisher, String note, char flgLending, int idUpdate, Timestamp dateUpdate) {
-        this.idBook = idBook;
-        this.isbn = isbn;
-        this.nmBook = nmBook;
-        this.knBook = knBook;
-        this.publisher = publisher;
-        this.note = note;
-        this.flgLending = flgLending;
-        this.idUpdate = idUpdate;
-        this.dateUpdate = dateUpdate;
-    }
-
-    // Default constructor
-    public BookCollectionEntity() {}
-
-    // Create BookCollection from BookCollectionEntity
-    public BookCollection toModel() {
-        return new BookCollection(
-            this.idBook,
-            this.isbn,
-            this.nmBook,
-            this.knBook,
-            this.publisher,
-            this.note,
-            this.flgLending,
-            this.idUpdate,
-            this.dateUpdate
-        );
-    }
+    
 }

@@ -1,7 +1,5 @@
 package dataaccess.entity;
 
-import businesslogic.model.Employee;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -104,14 +102,7 @@ public class EmployeeEntity {
 		entity.setDateUpdate(resultSet.getTimestamp("date_update"));
 		return entity;
 	}
-
-	// Convert from Employee model
-	public static EmployeeEntity convertFrom(Employee model) {
-		return new EmployeeEntity(model.getIdEmployee(), model.getNmEmployee(), model.getKnEmployee(),
-				model.getMailAddress(), model.getPassword(), model.getFlgAdmin(), model.getFlgRetirement(),
-				model.getIdUpdate(), model.getDateUpdate());
-	}
-
+	
 	// Constructor for EmployeeEntity
 	public EmployeeEntity(int idEmployee, String nmEmployee, String knEmployee, String mailAddress, String password,
 			char flgAdmin, char flgRetirement, int idUpdate, Timestamp dateUpdate) {
@@ -130,18 +121,6 @@ public class EmployeeEntity {
 	public EmployeeEntity() {
 	}
 
-	// Create Employee from EmployeeEntity
-	public Employee toModel() {
-		return new Employee(
-				this.idEmployee, 
-				this.nmEmployee, 
-				this.knEmployee,
-				this.mailAddress, 
-				this.password, 
-				this.flgAdmin, 
-				this.flgRetirement,
-				this.idUpdate, 
-				this.dateUpdate);
-	}
+	
 
 }

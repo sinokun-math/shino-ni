@@ -1,7 +1,5 @@
 package dataaccess.entity;
 
-import businesslogic.model.BorrowBooks;
-
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,24 +75,6 @@ public class BorrowBooksEntity {
         return entity;
     }
 
-    // Convert from BorrowBooks model
-    public static BorrowBooksEntity convertFrom(BorrowBooks model) {
-        return new BorrowBooksEntity(
-            model.getIdRequest(),
-            model.getIdApplicant(),
-            model.getIdBook(),
-            model.getDateRequest(),
-            model.getStatus(),
-            model.getIdApproval(),
-            model.getDateApproval(),
-            model.getDateBorrow(),
-            model.getDateScheduledReturn(),
-            model.getDateReturn(),
-            model.getIdUpdate(),
-            model.getDateUpdate()
-        );
-    }
-
     // Constructor for BorrowBooksEntity
     public BorrowBooksEntity(int idRequest, int idApplicant, int idBook, Date dateRequest, char status, Integer idApproval, Date dateApproval, Date dateBorrow, Date dateScheduledReturn, Date dateReturn, int idUpdate, Timestamp dateUpdate) {
         this.idRequest = idRequest;
@@ -113,22 +93,4 @@ public class BorrowBooksEntity {
 
     // Default constructor
     public BorrowBooksEntity() {}
-
-    // Create BorrowBooks from BorrowBooksEntity
-    public BorrowBooks toModel() {
-        return new BorrowBooks(
-            this.idRequest,
-            this.idApplicant,
-            this.idBook,
-            this.dateRequest,
-            this.status,
-            this.idApproval,
-            this.dateApproval,
-            this.dateBorrow,
-            this.dateScheduledReturn,
-            this.dateReturn,
-            this.idUpdate,
-            this.dateUpdate
-        );
-    }
 }
